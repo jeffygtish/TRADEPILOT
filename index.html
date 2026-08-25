@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TRADEPILOT - Deriv Trading Dashboard</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #07111f;
+    color: #f5f7fa;
+    min-height: 100vh;
+}
+
+button {
+    font: inherit;
+    cursor: pointer;
+}
+
+.app {
+    min-height: 100vh;
+}
+
+/* HEADER */
+
+header {
+    height: 70px;
+    background: #0b1728;
+    border-bottom: 1px solid #1b2b42;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: #16c784;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #06131f;
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.logo-text {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.logo-text span {
+    color: #16c784;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #9caec4;
+}
+
+.status-dot {
+    width: 9px;
+    height: 9px;
+    background: #16c784;
+    border-radius: 50%;
+}
+
+/* MAIN */
+
+main {
+    max-width: 1400px;
+    margin: auto;
+    padding: 25px;
+}
+
+/* WELCOME */
+
+.welcome {
+    margin-bottom: 25px;
+}
+
+.welcome h1 {
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+
+.welcome p {
+    color: #8fa2ba;
+}
+
+/* CARDS */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: #0c1a2c;
+    border: 1px solid #1c3048;
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.card-label {
+    color: #8fa2ba;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.card-value {
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.green {
+    color: #16c784;
+}
+
+.red {
+    color: #ff5571;
+}
+
+/* DASHBOARD */
+
+.dashboard {
+    display: grid;
+    grid-template-columns: 1fr 330px;
+    gap: 20px;
+}
+
+.panel {
+    background: #0c1a2c;
+    border: 1px solid #1c3048;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.panel-header {
+    padding: 18px 20px;
+    border-bottom: 1px solid #1c3048;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panel-title {
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.panel-body {
+    padding: 20px;
+}
+
+/* CHART */
+
+.chart {
+    height: 390px;
+    background:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size: 50px 50px;
+    position: relative;
+    overflow: hidden;
+}
+
+.chart-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 2px;
+    background: rgba(22,199,132,.25);
+    transform: rotate(-5deg);
+}
+
+.price {
+    position: absolute;
+    right: 15px;
+    top: 48%;
+    background: #16c784;
+    color: #06131f;
+    padding: 6px 9px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.chart-message {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #71869e;
+    font-size: 14px;
+}
+
+/* TRADE PANEL */
+
+.trade-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.form-group label {
+    font-size: 12px;
+    color: #8fa2ba;
+}
+
+select,
+input {
+    width: 100%;
+    background: #07111f;
+    border: 1px solid #263d58;
+    color: white;
+    border-radius: 8px;
+    padding: 12px;
+    outline: none;
+}
+
+select:focus,
+input:focus {
+    border-color: #16c784;
+}
+
+.trade-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.buy,
+.sell {
+    border: 0;
+    padding: 13px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.buy {
+    background: #16c784;
+    color: #06131f;
+}
+
+.sell {
+    background: #ff5571;
+    color: white;
+}
+
+.buy:hover,
+.sell:hover {
+    opacity: .85;
+}
+
+/* CONNECT */
+
+.connect {
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    border: 1px solid #16c784;
+    color: #16c784;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.connect:hover {
+    background: #16c784;
+    color: #06131f;
+}
+
+/* MARKET */
+
+.market-list {
+    margin-top: 20px;
+}
+
+.market {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #172b42;
+}
+
+.market:last-child {
+    border-bottom: 0;
+}
+
+.market-name {
+    font-weight: bold;
+}
+
+.market-symbol {
+    color: #71869e;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.market-price {
+    text-align: right;
+}
+
+.market-price strong {
+    display: block;
+}
+
+.market-change {
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+/* FOOTER */
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #60748d;
+    font-size: 12px;
+}
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+
+    header {
+        padding: 0 15px;
+    }
+
+    .logo-text {
+        font-size: 18px;
+    }
+
+    .status {
+        display: none;
+    }
+
+    main {
+        padding: 15px;
+    }
+
+    .welcome h1 {
+        font-size: 24px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .card-value {
+        font-size: 20px;
+    }
+
+    .chart {
+        height: 280px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+
+    <div class="logo">
+        <div class="logo-icon">T</div>
+
+        <div class="logo-text">
+            TRADE<span>PILOT</span>
+        </div>
+    </div>
+
+    <div class="status">
+        <div class="status-dot"></div>
+        Demo Mode
+    </div>
+
+</header>
+
+
+<main>
+
+<section class="welcome">
+
+    <h1>Welcome to TRADEPILOT</h1>
+
+    <p>
+        Your trading dashboard for Deriv markets.
+    </p>
+
+</section>
+
+
+<section class="cards">
+
+    <div class="card">
+        <div class="card-label">
+            Account Balance
+        </div>
+
+        <div class="card-value">
+            $0.00
+        </div>
+    </div>
+
+
+    <div class="card">
+        <div class="card-label">
+            Today's P/L
+        </div>
+
+        <div class="card-value green">
+            $0.00
+        </div>
+    </div>
+
+
+    <div class="card">
+        <div class="card-label">
+            Open Trades
+        </div>
+
+        <div class="card-value">
+            0
+        </div>
+    </div>
+
+
+    <div class="card">
+        <div class="card-label">
+            Connection
+        </div>
+
+        <div class="card-value green">
+            Ready
+        </div>
+    </div>
+
+</section>
+
+
+<section class="dashboard">
+
+
+<!-- CHART -->
+
+<div class="panel">
+
+    <div class="panel-header">
+
+        <div class="panel-title">
+            Market Chart
+        </div>
+
+        <select style="width:150px;">
+            <option>Volatility 100</option>
+            <option>Volatility 75</option>
+            <option>Volatility 50</option>
+            <option>Volatility 25</option>
+        </select>
+
+    </div>
+
+
+    <div class="chart">
+
+        <div class="chart-line"></div>
+
+        <div class="price">
+            100.00
+        </div>
+
+        <div class="chart-message">
+            Connect to Deriv to load live market data
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- TRADE PANEL -->
+
+<div class="panel">
+
+    <div class="panel-header">
+
+        <div class="panel-title">
+            Trade
+        </div>
+
+    </div>
+
+
+    <div class="panel-body">
+
+        <div class="trade-panel">
+
+
+            <div class="form-group">
+
+                <label>
+                    Market
+                </label>
+
+                <select id="market">
+
+                    <option>
+                        Volatility 100 Index
+                    </option>
+
+                    <option>
+                        Volatility 75 Index
+                    </option>
+
+                    <option>
+                        Volatility 50 Index
+                    </option>
+
+                    <option>
+                        Volatility 25 Index
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Contract
+                </label>
+
+                <select>
+
+                    <option>
+                        Rise / Fall
+                    </option>
+
+                    <option>
+                        Higher / Lower
+                    </option>
+
+                    <option>
+                        Touch / No Touch
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Stake
+                </label>
+
+                <input
+                    type="number"
+                    value="1"
+                    min="0.35"
+                    step="0.01"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Duration
+                </label>
+
+                <select>
+
+                    <option>
+                        1 Tick
+                    </option>
+
+                    <option>
+                        5 Ticks
+                    </option>
+
+                    <option>
+                        10 Ticks
+                    </option>
+
+                    <option>
+                        1 Minute
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="trade-buttons">
+
+                <button
+                    class="buy"
+                    onclick="demoTrade('BUY')"
+                >
+                    BUY
+                </button>
+
+                <button
+                    class="sell"
+                    onclick="demoTrade('SELL')"
+                >
+                    SELL
+                </button>
+
+            </div>
+
+
+            <button
+                class="connect"
+                onclick="connectDeriv()"
+            >
+                Connect Deriv Account
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- MARKETS -->
+
+<div class="panel market-list">
+
+    <div class="panel-header">
+
+        <div class="panel-title">
+            Popular Markets
+        </div>
+
+    </div>
+
+
+    <div class="panel-body">
+
+
+        <div class="market">
+
+            <div>
+
+                <div class="market-name">
+                    Volatility 100
+                </div>
+
+                <div class="market-symbol">
+                    R_100
+                </div>
+
+            </div>
+
+            <div class="market-price">
+
+                <strong>
+                    --
+                </strong>
+
+                <div class="market-change green">
+                    Waiting
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="market">
+
+            <div>
+
+                <div class="market-name">
+                    Volatility 75
+                </div>
+
+                <div class="market-symbol">
+                    R_75
+                </div>
+
+            </div>
+
+            <div class="market-price">
+
+                <strong>
+                    --
+                </strong>
+
+                <div class="market-change green">
+                    Waiting
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="market">
+
+            <div>
+
+                <div class="market-name">
+                    Volatility 50
+                </div>
+
+                <div class="market-symbol">
+                    R_50
+                </div>
+
+            </div>
+
+            <div class="market-price">
+
+                <strong>
+                    --
+                </strong>
+
+                <div class="market-change green">
+                    Waiting
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+</main>
+
+
+<footer>
+
+    TRADEPILOT © 2026
+    <br>
+    Trading involves risk. This dashboard is provided for informational and trading-interface purposes.
+
+</footer>
+
+</div>
+
+
+<script>
+
+function connectDeriv() {
+
+    alert(
+        "Deriv connection will be added in the next step. " +
+        "Do not enter your Deriv password into this website."
+    );
+
+}
+
+
+function demoTrade(type) {
+
+    alert(
+        type +
+        " selected in Demo Mode. " +
+        "Real trading is not enabled yet."
+    );
+
+}
+
+</script>
+
+</body>
+  </html>
