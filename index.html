@@ -2,623 +2,181 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>TRADEPILOT — Smart Trading Platform</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
+*{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#070b17;
-  --panel:#0d1324;
-  --panel2:#111a2d;
-  --border:#202b43;
-  --text:#f5f7ff;
-  --muted:#8d99b5;
-  --blue:#4d8dff;
-  --green:#20d889;
-  --red:#ff5575;
-  --gold:#f5c451;
+--bg:#070b17;--panel:#0d1324;--panel2:#111a2d;--border:#202b43;
+--text:#f5f7ff;--muted:#8d99b5;--blue:#4d8dff;--green:#20d889;
+--red:#ff5575;--gold:#f5c451;--purple:#8b6cff
 }
-
-body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-}
-
-button{
-  font-family:inherit;
-  cursor:pointer;
-}
-
-.app{
-  min-height:100vh;
-}
-
-/* HEADER */
+body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+button,input,select{font-family:inherit}
+button{cursor:pointer}
 header{
-  height:70px;
-  background:#0b1120;
-  border-bottom:1px solid var(--border);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 25px;
-  position:sticky;
-  top:0;
-  z-index:100;
+height:70px;background:#0b1120;border-bottom:1px solid var(--border);
+display:flex;align-items:center;justify-content:space-between;padding:0 24px;
+position:sticky;top:0;z-index:100
 }
-
-.logo{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:21px;
-  font-weight:800;
-  letter-spacing:.5px;
-}
-
+.logo{display:flex;align-items:center;gap:10px;font-size:21px;font-weight:800}
 .logo-icon{
-  width:38px;
-  height:38px;
-  border-radius:11px;
-  background:linear-gradient(135deg,#4d8dff,#755cff);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:bold;
+width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#4d8dff,#755cff);
+display:flex;align-items:center;justify-content:center;font-weight:bold
 }
-
-.header-right{
-  display:flex;
-  align-items:center;
-  gap:14px;
-}
-
-.balance{
-  background:#111a2d;
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:9px 14px;
-  font-size:13px;
-}
-
-.balance strong{
-  color:var(--green);
-}
-
-.connect-btn{
-  border:0;
-  background:var(--green);
-  color:#06120d;
-  padding:11px 17px;
-  border-radius:9px;
-  font-weight:700;
-}
-
-/* LAYOUT */
-.layout{
-  display:flex;
-  min-height:calc(100vh - 70px);
-}
-
-.sidebar{
-  width:235px;
-  background:#0a101e;
-  border-right:1px solid var(--border);
-  padding:22px 13px;
-  flex-shrink:0;
-}
-
-.side-title{
-  color:#66738e;
-  font-size:11px;
-  text-transform:uppercase;
-  padding:10px 13px;
-  letter-spacing:1px;
-}
-
+.header-right{display:flex;align-items:center;gap:12px}
+.balance{background:var(--panel2);border:1px solid var(--border);border-radius:9px;padding:9px 14px;font-size:13px}
+.balance strong{color:var(--green)}
+.connect-btn{border:0;background:var(--green);color:#06120d;padding:11px 16px;border-radius:8px;font-weight:700}
+.layout{display:flex;min-height:calc(100vh - 70px)}
+.sidebar{width:240px;background:#0a101e;border-right:1px solid var(--border);padding:20px 12px;flex-shrink:0}
+.side-title{color:#66738e;font-size:10px;text-transform:uppercase;padding:12px;letter-spacing:1px}
 .nav-btn{
-  width:100%;
-  border:0;
-  background:transparent;
-  color:#aab4ca;
-  padding:13px;
-  border-radius:9px;
-  text-align:left;
-  margin:2px 0;
-  font-size:14px;
+width:100%;border:0;background:transparent;color:#aab4ca;padding:12px;border-radius:8px;
+text-align:left;margin:2px 0;font-size:14px
 }
-
-.nav-btn:hover,
-.nav-btn.active{
-  background:#15213a;
-  color:#fff;
-}
-
-.nav-icon{
-  display:inline-block;
-  width:27px;
-}
-
-.main{
-  flex:1;
-  padding:25px;
-  max-width:1600px;
-  margin:auto;
-  width:100%;
-}
-
-.page{
-  display:none;
-}
-
-.page.active{
-  display:block;
-}
-
-.page-title{
-  margin-bottom:5px;
-  font-size:27px;
-}
-
-.page-subtitle{
-  color:var(--muted);
-  margin-bottom:24px;
-  font-size:14px;
-}
-
-/* CARDS */
-.grid{
-  display:grid;
-  gap:17px;
-}
-
-.stats{
-  grid-template-columns:repeat(4,1fr);
-}
-
-.card{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:13px;
-  padding:19px;
-}
-
-.stat-label{
-  color:var(--muted);
-  font-size:13px;
-  margin-bottom:11px;
-}
-
-.stat-value{
-  font-size:25px;
-  font-weight:700;
-}
-
-.green{
-  color:var(--green);
-}
-
-.red{
-  color:var(--red);
-}
-
-.blue{
-  color:var(--blue);
-}
-
-.gold{
-  color:var(--gold);
-}
-
-/* DASHBOARD */
-.dashboard-grid{
-  grid-template-columns:2fr 1fr;
-  margin-top:18px;
-}
-
-.chart{
-  height:330px;
-  position:relative;
-  overflow:hidden;
-}
-
-.chart svg{
-  width:100%;
-  height:260px;
-  margin-top:20px;
-}
-
-.chart-line{
-  fill:none;
-  stroke:#4d8dff;
-  stroke-width:4;
-}
-
-.chart-area{
-  fill:rgba(77,141,255,.08);
-}
-
-.chart-info{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.market-list{
-  display:flex;
-  flex-direction:column;
-  gap:11px;
-}
-
-.market{
-  display:flex;
-  justify-content:space-between;
-  padding:12px;
-  background:#111a2d;
-  border-radius:9px;
-}
-
-.market-name{
-  font-weight:600;
-}
-
-.market-price{
-  text-align:right;
-  font-size:13px;
-}
-
-.small{
-  font-size:11px;
-  color:var(--muted);
-}
-
-/* BUTTONS */
-.primary{
-  background:var(--blue);
-  color:#fff;
-  border:0;
-  padding:11px 17px;
-  border-radius:8px;
-  font-weight:700;
-}
-
-.secondary{
-  background:#18243b;
-  color:#fff;
-  border:1px solid var(--border);
-  padding:10px 15px;
-  border-radius:8px;
-}
-
-.danger{
-  background:rgba(255,85,117,.12);
-  color:var(--red);
-  border:1px solid rgba(255,85,117,.3);
-  padding:9px 13px;
-  border-radius:7px;
-}
-
-/* BOT BUILDER */
-.builder{
-  display:grid;
-  grid-template-columns:1.1fr .9fr;
-  gap:18px;
-}
-
-.form-group{
-  margin-bottom:17px;
-}
-
-label{
-  display:block;
-  color:#aab4ca;
-  font-size:13px;
-  margin-bottom:7px;
-}
-
+.nav-btn:hover,.nav-btn.active{background:#15213a;color:#fff}
+.nav-icon{display:inline-block;width:28px}
+.main{flex:1;padding:24px;max-width:1600px;margin:auto;width:100%}
+.page{display:none}.page.active{display:block}
+.page-title{font-size:27px;margin-bottom:5px}.page-subtitle{color:var(--muted);font-size:14px;margin-bottom:22px}
+.grid{display:grid;gap:16px}.stats{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:18px}
+.stat-label{color:var(--muted);font-size:12px;margin-bottom:9px}
+.stat-value{font-size:25px;font-weight:700}
+.small{font-size:11px;color:var(--muted)}
+.green{color:var(--green)}.red{color:var(--red)}.blue{color:var(--blue)}.gold{color:var(--gold)}
+.dashboard-grid{grid-template-columns:2fr 1fr;margin-top:17px}
+.chart{height:330px;overflow:hidden}.chart svg{width:100%;height:260px;margin-top:18px}
+.chart-line{fill:none;stroke:var(--blue);stroke-width:4}
+.chart-area{fill:rgba(77,141,255,.08)}
+.chart-info{display:flex;justify-content:space-between;align-items:center}
+.market-list{display:flex;flex-direction:column;gap:9px}
+.market{display:flex;justify-content:space-between;padding:11px;background:var(--panel2);border-radius:8px}
+.market-price{text-align:right;font-size:12px}
+.primary{background:var(--blue);color:white;border:0;padding:11px 16px;border-radius:8px;font-weight:700}
+.secondary{background:#18243b;color:#fff;border:1px solid var(--border);padding:10px 14px;border-radius:8px}
+.danger{background:rgba(255,85,117,.1);color:var(--red);border:1px solid rgba(255,85,117,.3);padding:9px 13px;border-radius:7px}
+.success{background:var(--green);color:#06120d;border:0;padding:10px 14px;border-radius:8px;font-weight:700}
+.form-group{margin-bottom:16px}label{display:block;color:#aab4ca;font-size:12px;margin-bottom:7px}
 input,select{
-  width:100%;
-  background:#0a1020;
-  color:#fff;
-  border:1px solid var(--border);
-  padding:12px;
-  border-radius:8px;
-  outline:none;
+width:100%;background:#0a1020;color:#fff;border:1px solid var(--border);
+padding:11px;border-radius:8px;outline:none
 }
-
-input:focus,select:focus{
-  border-color:var(--blue);
-}
-
-.strategy-box{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-}
-
-.strategy{
-  background:#111a2d;
-  border:1px solid var(--border);
-  padding:14px;
-  border-radius:9px;
-  color:#c3cbe0;
-  cursor:pointer;
-}
-
-.strategy.selected{
-  border-color:var(--blue);
-  background:#132447;
-  color:#fff;
-}
-
-.bot-preview{
-  min-height:400px;
-}
-
-.bot-status{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  color:var(--green);
-  margin:15px 0;
-}
-
-.dot{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:var(--green);
-}
-
-/* FREE BOTS */
-.bot-grid{
-  grid-template-columns:repeat(3,1fr);
-}
-
-.bot-card{
-  transition:.2s;
-}
-
-.bot-card:hover{
-  transform:translateY(-2px);
-  border-color:#35486e;
-}
-
-.bot-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:16px;
-}
-
-.bot-icon{
-  width:45px;
-  height:45px;
-  background:#17233b;
-  border-radius:11px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:20px;
-}
-
-.tag{
-  font-size:10px;
-  padding:5px 8px;
-  border-radius:5px;
-  background:rgba(32,216,137,.1);
-  color:var(--green);
-}
-
-.bot-description{
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.6;
-  margin:12px 0 18px;
-}
-
-.bot-meta{
-  display:flex;
-  justify-content:space-between;
-  color:#9aa6bf;
-  font-size:12px;
-  margin-bottom:17px;
-}
-
-/* TABLE */
-.table-wrap{
-  overflow-x:auto;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-}
-
-th,td{
-  padding:14px;
-  text-align:left;
-  border-bottom:1px solid var(--border);
-  font-size:13px;
-}
-
-th{
-  color:#77849f;
-  font-size:11px;
-  text-transform:uppercase;
-}
-
-.status{
-  padding:5px 8px;
-  border-radius:5px;
-  font-size:10px;
-}
-
-.status.win{
-  background:rgba(32,216,137,.1);
-  color:var(--green);
-}
-
-.status.loss{
-  background:rgba(255,85,117,.1);
-  color:var(--red);
-}
-
-/* CONNECT */
-.connect-panel{
-  max-width:650px;
-}
-
+input:focus,select:focus{border-color:var(--blue)}
+.builder{display:grid;grid-template-columns:1.1fr .9fr;gap:17px}
+.strategy-box{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.strategy{background:var(--panel2);border:1px solid var(--border);padding:13px;border-radius:8px}
+.strategy.selected{border-color:var(--blue);background:#132447}
+.bot-grid{grid-template-columns:repeat(3,1fr)}
+.bot-card{transition:.2s}.bot-card:hover{transform:translateY(-2px);border-color:#35486e}
+.bot-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.bot-icon{width:44px;height:44px;background:#17233b;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.tag{font-size:10px;padding:5px 8px;border-radius:5px;background:rgba(32,216,137,.1);color:var(--green)}
+.bot-description{color:var(--muted);font-size:13px;line-height:1.55;margin:11px 0 17px}
+.bot-meta{display:flex;justify-content:space-between;color:#9aa6bf;font-size:11px;margin-bottom:16px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th,td{padding:13px;text-align:left;border-bottom:1px solid var(--border);font-size:12px}
+th{color:#77849f;font-size:10px;text-transform:uppercase}
+.status{padding:5px 8px;border-radius:5px;font-size:10px}
+.status.win{background:rgba(32,216,137,.1);color:var(--green)}
+.status.loss{background:rgba(255,85,117,.1);color:var(--red)}
 .warning{
-  background:rgba(245,196,81,.08);
-  border:1px solid rgba(245,196,81,.25);
-  color:#e7ca79;
-  padding:14px;
-  border-radius:9px;
-  line-height:1.6;
-  font-size:13px;
-  margin-bottom:18px;
+background:rgba(245,196,81,.08);border:1px solid rgba(245,196,81,.25);
+color:#e7ca79;padding:13px;border-radius:8px;line-height:1.55;font-size:12px;margin-bottom:17px
 }
-
-/* MOBILE */
-.mobile-menu{
-  display:none;
-  background:#111a2d;
-  border:1px solid var(--border);
-  color:white;
-  border-radius:8px;
-  padding:9px 11px;
+.connect-panel{max-width:680px}
+.section-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.tool-card{min-height:190px}
+.tool-icon{font-size:30px;margin-bottom:13px}
+.tool-card p{color:var(--muted);font-size:13px;line-height:1.55;margin:9px 0 16px}
+.action-row{display:flex;gap:8px;flex-wrap:wrap}
+.ticker{
+display:flex;gap:12px;overflow-x:auto;padding:10px 0;margin-bottom:17px;
+scrollbar-width:none
 }
-
-@media(max-width:900px){
-  .sidebar{
-    width:200px;
-  }
-
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .dashboard-grid,
-  .builder{
-    grid-template-columns:1fr;
-  }
-
-  .bot-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
+.ticker::-webkit-scrollbar{display:none}
+.ticker-item{
+min-width:155px;background:var(--panel);border:1px solid var(--border);
+border-radius:9px;padding:11px
 }
+.ticker-name{font-size:11px;color:var(--muted)}.ticker-price{font-weight:bold;margin-top:4px}
+.manual-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:17px}
+.trade-box{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.buy{background:var(--green);color:#06120d;border:0;padding:13px;border-radius:8px;font-weight:bold}
+.sell{background:var(--red);color:#fff;border:0;padding:13px;border-radius:8px;font-weight:bold}
+.chart-large{height:400px}
+.chart-large svg{height:330px;width:100%;margin-top:15px}
+.ai-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.ai-card{position:relative}
+.ai-badge{position:absolute;right:17px;top:17px;color:var(--purple);font-size:10px;border:1px solid rgba(139,108,255,.35);padding:5px 7px;border-radius:5px}
+.analysis-grid{display:grid;grid-template-columns:1.4fr .6fr;gap:17px}
+.indicator{
+display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border);
+font-size:12px
+}
+.signal{
+padding:14px;border-radius:9px;background:rgba(32,216,137,.07);
+border:1px solid rgba(32,216,137,.2);margin-bottom:12px
+}
+.progress{height:7px;background:#18243b;border-radius:20px;overflow:hidden;margin-top:8px}
+.progress span{display:block;height:100%;background:var(--blue)}
+.notice{
+background:#111a2d;border:1px solid var(--border);border-radius:9px;padding:13px;
+color:#b8c1d5;font-size:12px;line-height:1.6
+}
+.mobile-menu{display:none;background:#111a2d;border:1px solid var(--border);color:white;border-radius:8px;padding:8px 10px}
+.empty{text-align:center;padding:42px;color:#77849f}
+.modal{
+display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;
+align-items:center;justify-content:center;padding:18px
+}
+.modal.open{display:flex}.modal-box{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:20px;max-width:600px;width:100%}
+.close{float:right;background:none;border:0;color:#aaa;font-size:22px}
+.toast{
+position:fixed;right:18px;bottom:18px;background:#15213a;border:1px solid var(--border);
+padding:13px 17px;border-radius:9px;display:none;z-index:800;font-size:13px
+}
+.toast.show{display:block}
 
-@media(max-width:650px){
-  header{
-    height:62px;
-    padding:0 13px;
-  }
-
-  .logo{
-    font-size:17px;
-  }
-
-  .logo-icon{
-    width:32px;
-    height:32px;
-  }
-
-  .balance{
-    display:none;
-  }
-
-  .connect-btn{
-    padding:9px 11px;
-    font-size:12px;
-  }
-
-  .mobile-menu{
-    display:block;
-  }
-
-  .layout{
-    display:block;
-  }
-
-  .sidebar{
-    display:none;
-    position:fixed;
-    top:62px;
-    left:0;
-    bottom:0;
-    width:245px;
-    z-index:200;
-    box-shadow:10px 0 30px rgba(0,0,0,.4);
-  }
-
-  .sidebar.open{
-    display:block;
-  }
-
-  .main{
-    padding:17px 12px;
-  }
-
-  .page-title{
-    font-size:23px;
-  }
-
-  .stats{
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-  }
-
-  .card{
-    padding:14px;
-  }
-
-  .stat-value{
-    font-size:20px;
-  }
-
-  .bot-grid{
-    grid-template-columns:1fr;
-  }
-
-  .strategy-box{
-    grid-template-columns:1fr;
-  }
+@media(max-width:1000px){
+.sidebar{width:205px}.stats{grid-template-columns:repeat(2,1fr)}
+.dashboard-grid,.builder,.manual-grid,.analysis-grid{grid-template-columns:1fr}
+.bot-grid,.ai-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:680px){
+header{height:62px;padding:0 12px}.logo{font-size:17px}.logo-icon{width:32px;height:32px}
+.balance{display:none}.connect-btn{padding:9px 11px;font-size:11px}
+.mobile-menu{display:block}.layout{display:block}
+.sidebar{
+display:none;position:fixed;top:62px;left:0;bottom:0;width:245px;z-index:300;
+box-shadow:10px 0 30px rgba(0,0,0,.4)
+}
+.sidebar.open{display:block}.main{padding:16px 12px}
+.page-title{font-size:23px}.stats{gap:9px}
+.card{padding:14px}.stat-value{font-size:20px}
+.bot-grid,.ai-grid,.section-grid{grid-template-columns:1fr}
+.strategy-box{grid-template-columns:1fr}
+.trade-box{grid-template-columns:1fr}
 }
 </style>
 </head>
 
 <body>
-
 <div class="app">
 
 <header>
-  <div style="display:flex;align-items:center;gap:12px;">
-    <button class="mobile-menu" onclick="toggleMenu()">☰</button>
+<div style="display:flex;align-items:center;gap:11px">
+<button class="mobile-menu" onclick="toggleMenu()">☰</button>
+<div class="logo"><div class="logo-icon">TP</div>TRADEPILOT</div>
+</div>
 
-    <div class="logo">
-      <div class="logo-icon">TP</div>
-      TRADEPILOT
-    </div>
-  </div>
-
-  <div class="header-right">
-    <div class="balance">
-      Balance: <strong id="balance">$0.00</strong>
-    </div>
-
-    <button class="connect-btn" onclick="showPage('connect')">
-      Connect Deriv
-    </button>
-  </div>
+<div class="header-right">
+<div class="balance">Balance: <strong id="headerBalance">$0.00</strong></div>
+<button class="connect-btn" onclick="showPage('account')">Connect Deriv</button>
+</div>
 </header>
 
 <div class="layout">
@@ -626,900 +184,578 @@ th{
 <aside class="sidebar" id="sidebar">
 
 <div class="side-title">Main</div>
-
-<button class="nav-btn active" onclick="showPage('dashboard',this)">
-  <span class="nav-icon">▦</span> Dashboard
-</button>
-
-<button class="nav-btn" onclick="showPage('markets',this)">
-  <span class="nav-icon">◈</span> Markets
-</button>
-
-<button class="nav-btn" onclick="showPage('trades',this)">
-  <span class="nav-icon">↕</span> My Trades
-</button>
+<button class="nav-btn active" onclick="showPage('dashboard',this)">▦ &nbsp; Dashboard</button>
+<button class="nav-btn" onclick="showPage('markets',this)">◈ &nbsp; Markets</button>
+<button class="nav-btn" onclick="showPage('manual',this)">↕ &nbsp; Manual Trader</button>
 
 <div class="side-title">Automation</div>
+<button class="nav-btn" onclick="showPage('builder',this)">⚙ &nbsp; Bot Builder</button>
+<button class="nav-btn" onclick="showPage('freebots',this)">◆ &nbsp; Free Bots</button>
+<button class="nav-btn" onclick="showPage('mybots',this)">▣ &nbsp; My Bots</button>
 
-<button class="nav-btn" onclick="showPage('builder',this)">
-  <span class="nav-icon">⚙</span> Bot Builder
-</button>
-
-<button class="nav-btn" onclick="showPage('freebots',this)">
-  <span class="nav-icon">◆</span> Free Bots
-</button>
-
-<button class="nav-btn" onclick="showPage('mybots',this)">
-  <span class="nav-icon">▣</span> My Bots
-</button>
+<div class="side-title">AI & Analysis</div>
+<button class="nav-btn" onclick="showPage('ai',this)">✦ &nbsp; AI Software</button>
+<button class="nav-btn" onclick="showPage('analysis',this)">⌁ &nbsp; Analysis Tool</button>
 
 <div class="side-title">Account</div>
-
-<button class="nav-btn" onclick="showPage('connect',this)">
-  <span class="nav-icon">◎</span> Deriv Account
-</button>
-
-<button class="nav-btn" onclick="showPage('settings',this)">
-  <span class="nav-icon">⚙</span> Settings
-</button>
+<button class="nav-btn" onclick="showPage('trades',this)">↔ &nbsp; Trade History</button>
+<button class="nav-btn" onclick="showPage('account',this)">◎ &nbsp; Account</button>
+<button class="nav-btn" onclick="showPage('settings',this)">⚙ &nbsp; Settings</button>
 
 </aside>
 
 <main class="main">
 
 <!-- DASHBOARD -->
-
 <section id="dashboard" class="page active">
-
 <h1 class="page-title">Trading Dashboard</h1>
-<p class="page-subtitle">
-Welcome to TRADEPILOT. Manage your trading bots and monitor your account.
-</p>
+<p class="page-subtitle">Your TRADEPILOT command center.</p>
+
+<div class="ticker">
+<div class="ticker-item"><div class="ticker-name">Volatility 10</div><div class="ticker-price">1,020.44 <span class="green">+0.24%</span></div></div>
+<div class="ticker-item"><div class="ticker-name">Volatility 25</div><div class="ticker-price">1,182.17 <span class="green">+0.51%</span></div></div>
+<div class="ticker-item"><div class="ticker-name">Volatility 50</div><div class="ticker-price">1,331.82 <span class="red">-0.18%</span></div></div>
+<div class="ticker-item"><div class="ticker-name">Volatility 75</div><div class="ticker-price">982.41 <span class="green">+0.46%</span></div></div>
+<div class="ticker-item"><div class="ticker-name">Volatility 100</div><div class="ticker-price">1,245.20 <span class="green">+0.82%</span></div></div>
+</div>
 
 <div class="grid stats">
-
-<div class="card">
-<div class="stat-label">Account Balance</div>
-<div class="stat-value">$0.00</div>
-<div class="small">Connect Deriv account</div>
-</div>
-
-<div class="card">
-<div class="stat-label">Today's P/L</div>
-<div class="stat-value green">+$0.00</div>
-<div class="small">No trades yet</div>
-</div>
-
-<div class="card">
-<div class="stat-label">Active Bots</div>
-<div class="stat-value blue" id="activeBots">0</div>
-<div class="small">Bots currently running</div>
-</div>
-
-<div class="card">
-<div class="stat-label">Win Rate</div>
-<div class="stat-value gold">0%</div>
-<div class="small">No trading history</div>
-</div>
-
+<div class="card"><div class="stat-label">Account Balance</div><div class="stat-value" id="dashBalance">$0.00</div><div class="small">Connect Deriv account</div></div>
+<div class="card"><div class="stat-label">Today's P/L</div><div class="stat-value green">$0.00</div><div class="small">No live trades</div></div>
+<div class="card"><div class="stat-label">Active Bots</div><div class="stat-value blue" id="activeBots">0</div><div class="small">Currently running</div></div>
+<div class="card"><div class="stat-label">Win Rate</div><div class="stat-value gold">0%</div><div class="small">No trading history</div></div>
 </div>
 
 <div class="grid dashboard-grid">
-
 <div class="card chart">
-
-<div class="chart-info">
-<div>
-<h3>Performance</h3>
-<span class="small">Portfolio performance</span>
-</div>
-
-<button class="secondary">1D ▾</button>
-</div>
-
+<div class="chart-info"><div><h3>Performance</h3><span class="small">Portfolio performance</span></div><button class="secondary">1D ▾</button></div>
 <svg viewBox="0 0 700 260" preserveAspectRatio="none">
-<path class="chart-area"
-d="M0,220 L70,205 L140,215 L210,175 L280,190 L350,135 L420,155 L490,100 L560,125 L630,70 L700,90 L700,260 L0,260 Z"/>
-<path class="chart-line"
-d="M0,220 L70,205 L140,215 L210,175 L280,190 L350,135 L420,155 L490,100 L560,125 L630,70 L700,90"/>
+<path class="chart-area" d="M0,220 L70,205 L140,215 L210,175 L280,190 L350,135 L420,155 L490,100 L560,125 L630,70 L700,90 L700,260 L0,260 Z"/>
+<path class="chart-line" d="M0,220 L70,205 L140,215 L210,175 L280,190 L350,135 L420,155 L490,100 L560,125 L630,70 L700,90"/>
 </svg>
-
 </div>
 
 <div class="card">
-
-<h3 style="margin-bottom:15px;">Popular Markets</h3>
-
+<h3 style="margin-bottom:14px">Popular Markets</h3>
 <div class="market-list">
-
-<div class="market">
-<div>
-<div class="market-name">Volatility 100</div>
-<div class="small">Synthetic</div>
-</div>
-<div class="market-price">
-1,245.20<br>
-<span class="green">+0.82%</span>
+<div class="market"><div>Volatility 100<div class="small">Synthetic</div></div><div class="market-price">1,245.20<br><span class="green">+0.82%</span></div></div>
+<div class="market"><div>Volatility 75<div class="small">Synthetic</div></div><div class="market-price">982.41<br><span class="green">+0.46%</span></div></div>
+<div class="market"><div>Boom 1000<div class="small">Synthetic</div></div><div class="market-price">5,214.80<br><span class="red">-0.31%</span></div></div>
+<div class="market"><div>Crash 1000<div class="small">Synthetic</div></div><div class="market-price">4,889.12<br><span class="green">+1.12%</span></div></div>
 </div>
 </div>
-
-<div class="market">
-<div>
-<div class="market-name">Volatility 75</div>
-<div class="small">Synthetic</div>
 </div>
-<div class="market-price">
-982.41<br>
-<span class="green">+0.46%</span>
-</div>
-</div>
-
-<div class="market">
-<div>
-<div class="market-name">Boom 1000</div>
-<div class="small">Synthetic</div>
-</div>
-<div class="market-price">
-5,214.80<br>
-<span class="red">-0.31%</span>
-</div>
-</div>
-
-<div class="market">
-<div>
-<div class="market-name">Crash 1000</div>
-<div class="small">Synthetic</div>
-</div>
-<div class="market-price">
-4,889.12<br>
-<span class="green">+1.12%</span>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-
 </section>
-
 
 <!-- MARKETS -->
-
 <section id="markets" class="page">
-
 <h1 class="page-title">Markets</h1>
-<p class="page-subtitle">
-Monitor available trading markets.
-</p>
+<p class="page-subtitle">Monitor available markets. Live API data will replace demo values during integration.</p>
+
+<div class="ticker">
+<div class="ticker-item"><div class="ticker-name">Volatility 10</div><div class="ticker-price">1,020.44 <span class="green">+0.24%</span></div></div>
+<div class="ticker-item"><div class="ticker-name">Volatility 25</div><div class="ticker-price">1,182.17 <span class="green">+0.51%</span></div></div>
+<div class="ticker-item"><div class="ticker-name">Volatility 50</div><div class="ticker-price">1,331.82 <span class="red">-0.18%</span></div></div>
+<div class="ticker-item"><div class="ticker-name">Volatility 75</div><div class="ticker-price">982.41 <span class="green">+0.46%</span></div></div>
+</div>
 
 <div class="card table-wrap">
-
 <table>
-<thead>
-<tr>
-<th>Market</th>
-<th>Price</th>
-<th>Change</th>
-<th>Status</th>
-</tr>
-</thead>
-
+<thead><tr><th>Market</th><th>Price</th><th>Change</th><th>Status</th><th>Action</th></tr></thead>
 <tbody>
-
-<tr>
-<td>Volatility 10</td>
-<td>1,020.44</td>
-<td class="green">+0.24%</td>
-<td><span class="status win">OPEN</span></td>
-</tr>
-
-<tr>
-<td>Volatility 25</td>
-<td>1,182.17</td>
-<td class="green">+0.51%</td>
-<td><span class="status win">OPEN</span></td>
-</tr>
-
-<tr>
-<td>Volatility 50</td>
-<td>1,331.82</td>
-<td class="red">-0.18%</td>
-<td><span class="status win">OPEN</span></td>
-</tr>
-
-<tr>
-<td>Volatility 75</td>
-<td>982.41</td>
-<td class="green">+0.46%</td>
-<td><span class="status win">OPEN</span></td>
-</tr>
-
-<tr>
-<td>Volatility 100</td>
-<td>1,245.20</td>
-<td class="green">+0.82%</td>
-<td><span class="status win">OPEN</span></td>
-</tr>
-
+<tr><td>Volatility 10</td><td>1,020.44</td><td class="green">+0.24%</td><td><span class="status win">OPEN</span></td><td><button class="secondary" onclick="openManual('Volatility 10')">Trade</button></td></tr>
+<tr><td>Volatility 25</td><td>1,182.17</td><td class="green">+0.51%</td><td><span class="status win">OPEN</span></td><td><button class="secondary" onclick="openManual('Volatility 25')">Trade</button></td></tr>
+<tr><td>Volatility 50</td><td>1,331.82</td><td class="red">-0.18%</td><td><span class="status win">OPEN</span></td><td><button class="secondary" onclick="openManual('Volatility 50')">Trade</button></td></tr>
+<tr><td>Volatility 75</td><td>982.41</td><td class="green">+0.46%</td><td><span class="status win">OPEN</span></td><td><button class="secondary" onclick="openManual('Volatility 75')">Trade</button></td></tr>
+<tr><td>Volatility 100</td><td>1,245.20</td><td class="green">+0.82%</td><td><span class="status win">OPEN</span></td><td><button class="secondary" onclick="openManual('Volatility 100')">Trade</button></td></tr>
+<tr><td>Boom 1000</td><td>5,214.80</td><td class="red">-0.31%</td><td><span class="status win">OPEN</span></td><td><button class="secondary" onclick="openManual('Boom 1000')">Trade</button></td></tr>
+<tr><td>Crash 1000</td><td>4,889.12</td><td class="green">+1.12%</td><td><span class="status win">OPEN</span></td><td><button class="secondary" onclick="openManual('Crash 1000')">Trade</button></td></tr>
 </tbody>
 </table>
-
 </div>
-
 </section>
 
+<!-- MANUAL TRADER -->
+<section id="manual" class="page">
+<h1 class="page-title">Manual Trader</h1>
+<p class="page-subtitle">Configure a trade manually. This version is test mode and does not place real trades.</p>
 
-<!-- TRADES -->
+<div class="warning"><strong>TEST MODE:</strong> Real Deriv execution is disabled. The buttons below simulate the workflow only. Real trading will be added after official Deriv authentication and API testing.</div>
 
-<section id="trades" class="page">
+<div class="manual-grid">
+<div class="card">
+<h3 style="margin-bottom:18px">Trade Configuration</h3>
 
-<h1 class="page-title">My Trades</h1>
-<p class="page-subtitle">
-Your trading history will appear here.
-</p>
+<div class="form-group"><label>Market</label>
+<select id="manualMarket">
+<option>Volatility 10</option><option>Volatility 25</option><option>Volatility 50</option>
+<option>Volatility 75</option><option>Volatility 100</option><option>Boom 1000</option><option>Crash 1000</option>
+</select></div>
 
-<div class="card table-wrap">
+<div class="form-group"><label>Contract / Trade Type</label>
+<select id="tradeType"><option>Rise</option><option>Fall</option><option>Higher</option><option>Lower</option></select></div>
 
-<table>
-
-<thead>
-<tr>
-<th>Time</th>
-<th>Market</th>
-<th>Type</th>
-<th>Stake</th>
-<th>Result</th>
-<th>Status</th>
-</tr>
-</thead>
-
-<tbody id="tradeHistory">
-
-<tr>
-<td colspan="6" style="text-align:center;color:#77849f;padding:40px;">
-No trades yet. Connect your Deriv account to begin.
-</td>
-</tr>
-
-</tbody>
-
-</table>
-
+<div class="trade-box">
+<div class="form-group"><label>Stake</label><input id="manualStake" type="number" min="0.35" value="1"></div>
+<div class="form-group"><label>Duration</label><input id="duration" type="number" value="5" min="1"></div>
 </div>
 
-</section>
+<div class="trade-box">
+<button class="buy" onclick="simulateTrade('BUY')">BUY / TEST</button>
+<button class="sell" onclick="simulateTrade('SELL')">SELL / TEST</button>
+</div>
+</div>
 
+<div class="card chart-large">
+<h3>Trading Chart</h3>
+<span class="small">Demo visualization — live data will be connected later.</span>
+<svg viewBox="0 0 700 330" preserveAspectRatio="none">
+<path class="chart-area" d="M0,280 L45,260 L90,275 L135,220 L180,240 L225,180 L270,205 L315,150 L360,170 L405,120 L450,155 L495,90 L540,130 L585,80 L630,110 L700,55 L700,330 L0,330 Z"/>
+<path class="chart-line" d="M0,280 L45,260 L90,275 L135,220 L180,240 L225,180 L270,205 L315,150 L360,170 L405,120 L450,155 L495,90 L540,130 L585,80 L630,110 L700,55"/>
+</svg>
+</div>
+</div>
+</section>
 
 <!-- BOT BUILDER -->
-
 <section id="builder" class="page">
-
 <h1 class="page-title">Bot Builder</h1>
-<p class="page-subtitle">
-Create and configure your own automated trading bot.
-</p>
+<p class="page-subtitle">Create, configure and test your own automated bot.</p>
 
 <div class="builder">
+<div class="card">
+<h3 style="margin-bottom:18px">Bot Configuration</h3>
+
+<div class="form-group"><label>Bot Name</label><input id="botName" placeholder="My Trading Bot"></div>
+
+<div class="form-group"><label>Market</label>
+<select id="botMarket">
+<option>Volatility 10</option><option>Volatility 25</option><option>Volatility 50</option>
+<option>Volatility 75</option><option>Volatility 100</option><option>Boom 1000</option><option>Crash 1000</option>
+</select></div>
+
+<div class="form-group"><label>Strategy</label>
+<div class="strategy-box">
+<div class="strategy selected" onclick="selectStrategy(this)"><strong>Trend Rider</strong><div class="small">Follow market direction</div></div>
+<div class="strategy" onclick="selectStrategy(this)"><strong>Smart Scalper</strong><div class="small">Short-term entries</div></div>
+<div class="strategy" onclick="selectStrategy(this)"><strong>Breakout</strong><div class="small">Trade breakouts</div></div>
+<div class="strategy" onclick="selectStrategy(this)"><strong>Custom</strong><div class="small">Build your rules</div></div>
+</div></div>
+
+<div class="trade-box">
+<div class="form-group"><label>Stake</label><input id="stake" type="number" min="0.35" value="1"></div>
+<div class="form-group"><label>Stop Loss</label><input id="stopLoss" type="number" value="10"></div>
+</div>
+
+<div class="form-group"><label>Take Profit</label><input id="takeProfit" type="number" value="20"></div>
+
+<div class="action-row">
+<button class="primary" onclick="createBot()">Create Bot</button>
+<button class="secondary" onclick="testCurrentBot()">Test Bot</button>
+</div>
+</div>
 
 <div class="card">
-
-<h3 style="margin-bottom:20px;">Bot Configuration</h3>
-
-<div class="form-group">
-<label>Bot Name</label>
-<input id="botName" placeholder="My Trading Bot">
-</div>
-
-<div class="form-group">
-<label>Market</label>
-
-<select id="botMarket">
-<option>Volatility 10</option>
-<option>Volatility 25</option>
-<option>Volatility 50</option>
-<option>Volatility 75</option>
-<option>Volatility 100</option>
-<option>Boom 1000</option>
-<option>Crash 1000</option>
-</select>
-
-</div>
-
-<div class="form-group">
-
-<label>Strategy</label>
-
-<div class="strategy-box">
-
-<div class="strategy selected" onclick="selectStrategy(this)">
-<strong>Trend Rider</strong>
-<div class="small">Follow market direction</div>
-</div>
-
-<div class="strategy" onclick="selectStrategy(this)">
-<strong>Smart Scalper</strong>
-<div class="small">Short-term entries</div>
-</div>
-
-<div class="strategy" onclick="selectStrategy(this)">
-<strong>Breakout</strong>
-<div class="small">Trade breakouts</div>
-</div>
-
-<div class="strategy" onclick="selectStrategy(this)">
-<strong>Custom</strong>
-<div class="small">Build your rules</div>
-</div>
-
-</div>
-
-</div>
-
-<div class="form-group">
-<label>Stake Amount</label>
-<input id="stake" type="number" value="1" min="0.35">
-</div>
-
-<div class="form-group">
-<label>Stop Loss</label>
-<input id="stopLoss" type="number" value="10">
-</div>
-
-<div class="form-group">
-<label>Take Profit</label>
-<input id="takeProfit" type="number" value="20">
-</div>
-
-<button class="primary" style="width:100%;" onclick="createBot()">
-Create Bot
-</button>
-
-</div>
-
-
-<div class="card bot-preview">
-
 <h3>Bot Preview</h3>
-
-<div class="bot-status">
-<span class="dot"></span>
-Ready to configure
+<div class="bot-status green" style="margin:15px 0">● Ready to configure</div>
+<div style="line-height:2.1">
+<div><span class="small">MARKET</span><br><strong id="previewMarket">Volatility 10</strong></div>
+<div><span class="small">STRATEGY</span><br><strong id="previewStrategy">Trend Rider</strong></div>
+<div><span class="small">STAKE</span><br><strong id="previewStake">$1.00</strong></div>
+<div><span class="small">STOP LOSS</span><br><strong id="previewSL">$10.00</strong></div>
+<div><span class="small">TAKE PROFIT</span><br><strong id="previewTP">$20.00</strong></div>
 </div>
-
-<div style="margin-top:25px;line-height:2;">
-
-<div>
-<span class="small">MARKET</span><br>
-<strong id="previewMarket">Volatility 10</strong>
 </div>
-
-<div>
-<span class="small">STRATEGY</span><br>
-<strong id="previewStrategy">Trend Rider</strong>
 </div>
-
-<div>
-<span class="small">STAKE</span><br>
-<strong id="previewStake">$1.00</strong>
-</div>
-
-<div>
-<span class="small">STOP LOSS</span><br>
-<strong id="previewSL">$10.00</strong>
-</div>
-
-<div>
-<span class="small">TAKE PROFIT</span><br>
-<strong id="previewTP">$20.00</strong>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
 </section>
 
-
 <!-- FREE BOTS -->
-
 <section id="freebots" class="page">
-
 <h1 class="page-title">Free Bots</h1>
-<p class="page-subtitle">
-Explore ready-made strategies available to TRADEPILOT users.
-</p>
+<p class="page-subtitle">Select a ready-made bot, configure it, test it and run it.</p>
 
 <div class="grid bot-grid">
 
-<div class="card bot-card">
+<div class="card bot-card"><div class="bot-top"><div class="bot-icon">📈</div><span class="tag">FREE</span></div><h3>Trend Rider</h3><p class="bot-description">Trend-following configuration for directional markets.</p><div class="bot-meta"><span>Risk: Medium</span><span>Trend</span></div><button class="primary" style="width:100%" onclick="selectFreeBot('Trend Rider','Trend')">Select Bot</button></div>
 
-<div class="bot-top">
-<div class="bot-icon">📈</div>
-<span class="tag">FREE</span>
-</div>
+<div class="card bot-card"><div class="bot-top"><div class="bot-icon">⚡</div><span class="tag">FREE</span></div><h3>Quick Scalper</h3><p class="bot-description">Short-term strategy designed for frequent test entries.</p><div class="bot-meta"><span>Risk: High</span><span>Scalping</span></div><button class="primary" style="width:100%" onclick="selectFreeBot('Quick Scalper','Scalping')">Select Bot</button></div>
 
-<h3>Trend Rider</h3>
+<div class="card bot-card"><div class="bot-top"><div class="bot-icon">🎯</div><span class="tag">FREE</span></div><h3>Breakout Hunter</h3><p class="bot-description">Designed around potential breakout conditions.</p><div class="bot-meta"><span>Risk: Medium</span><span>Breakout</span></div><button class="primary" style="width:100%" onclick="selectFreeBot('Breakout Hunter','Breakout')">Select Bot</button></div>
 
-<p class="bot-description">
-Designed to follow directional market movement using trend-based rules.
-</p>
+<div class="card bot-card"><div class="bot-top"><div class="bot-icon">🛡️</div><span class="tag">FREE</span></div><h3>Safe Starter</h3><p class="bot-description">Conservative configuration intended for learning and testing.</p><div class="bot-meta"><span>Risk: Low</span><span>Conservative</span></div><button class="primary" style="width:100%" onclick="selectFreeBot('Safe Starter','Conservative')">Select Bot</button></div>
 
-<div class="bot-meta">
-<span>Risk: Medium</span>
-<span>Strategy: Trend</span>
-</div>
+<div class="card bot-card"><div class="bot-top"><div class="bot-icon">🤖</div><span class="tag">FREE</span></div><h3>Smart Pilot</h3><p class="bot-description">General-purpose automated strategy configuration.</p><div class="bot-meta"><span>Risk: Medium</span><span>Smart</span></div><button class="primary" style="width:100%" onclick="selectFreeBot('Smart Pilot','Smart')">Select Bot</button></div>
 
-<button class="primary" style="width:100%;" onclick="installBot('Trend Rider')">
-Use Bot
-</button>
+<div class="card bot-card"><div class="bot-top"><div class="bot-icon">🔄</div><span class="tag">FREE</span></div><h3>Momentum Bot</h3><p class="bot-description">Momentum-based configuration for testing market movement.</p><div class="bot-meta"><span>Risk: Medium</span><span>Momentum</span></div><button class="primary" style="width:100%" onclick="selectFreeBot('Momentum Bot','Momentum')">Select Bot</button></div>
 
 </div>
-
-
-<div class="card bot-card">
-
-<div class="bot-top">
-<div class="bot-icon">⚡</div>
-<span class="tag">FREE</span>
-</div>
-
-<h3>Quick Scalper</h3>
-
-<p class="bot-description">
-A short-term strategy designed for users who want frequent trading signals.
-</p>
-
-<div class="bot-meta">
-<span>Risk: High</span>
-<span>Strategy: Scalping</span>
-</div>
-
-<button class="primary" style="width:100%;" onclick="installBot('Quick Scalper')">
-Use Bot
-</button>
-
-</div>
-
-
-<div class="card bot-card">
-
-<div class="bot-top">
-<div class="bot-icon">🎯</div>
-<span class="tag">FREE</span>
-</div>
-
-<h3>Breakout Hunter</h3>
-
-<p class="bot-description">
-Looks for potential breakouts around important price levels.
-</p>
-
-<div class="bot-meta">
-<span>Risk: Medium</span>
-<span>Strategy: Breakout</span>
-</div>
-
-<button class="primary" style="width:100%;" onclick="installBot('Breakout Hunter')">
-Use Bot
-</button>
-
-</div>
-
-
-<div class="card bot-card">
-
-<div class="bot-top">
-<div class="bot-icon">🛡️</div>
-<span class="tag">FREE</span>
-</div>
-
-<h3>Safe Starter</h3>
-
-<p class="bot-description">
-A conservative starting configuration intended for learning and testing.
-</p>
-
-<div class="bot-meta">
-<span>Risk: Low</span>
-<span>Strategy: Conservative</span>
-</div>
-
-<button class="primary" style="width:100%;" onclick="installBot('Safe Starter')">
-Use Bot
-</button>
-
-</div>
-
-
-<div class="card bot-card">
-
-<div class="bot-top">
-<div class="bot-icon">🤖</div>
-<span class="tag">FREE</span>
-</div>
-
-<h3>Smart Pilot</h3>
-
-<p class="bot-description">
-A general-purpose automated strategy configuration for testing.
-</p>
-
-<div class="bot-meta">
-<span>Risk: Medium</span>
-<span>Strategy: Smart</span>
-</div>
-
-<button class="primary" style="width:100%;" onclick="installBot('Smart Pilot')">
-Use Bot
-</button>
-
-</div>
-
-
-<div class="card bot-card">
-
-<div class="bot-top">
-<div class="bot-icon">🔄</div>
-<span class="tag">FREE</span>
-</div>
-
-<h3>Momentum Bot</h3>
-
-<p class="bot-description">
-Uses momentum-based rules to identify potential trading opportunities.
-</p>
-
-<div class="bot-meta">
-<span>Risk: Medium</span>
-<span>Strategy: Momentum</span>
-</div>
-
-<button class="primary" style="width:100%;" onclick="installBot('Momentum Bot')">
-Use Bot
-</button>
-
-</div>
-
-</div>
-
 </section>
-
 
 <!-- MY BOTS -->
-
 <section id="mybots" class="page">
-
 <h1 class="page-title">My Bots</h1>
-<p class="page-subtitle">
-Manage your created and installed bots.
-</p>
-
+<p class="page-subtitle">Manage bots created or installed from Free Bots.</p>
 <div id="myBotList">
-
-<div class="card" style="text-align:center;padding:45px;">
-<div style="font-size:35px;margin-bottom:12px;">🤖</div>
-<h3>No bots yet</h3>
-<p class="page-subtitle" style="margin-top:8px;">
-Create a bot or install a free bot.
-</p>
-
-<button class="primary" onclick="showPage('builder')">
-Open Bot Builder
-</button>
-
+<div class="card empty"><div style="font-size:34px">🤖</div><h3 style="margin:10px 0">No bots yet</h3><p>Create a bot or select a free bot.</p><br><button class="primary" onclick="showPage('builder')">Open Bot Builder</button></div>
 </div>
-
-</div>
-
 </section>
 
+<!-- AI SOFTWARE -->
+<section id="ai" class="page">
+<h1 class="page-title">AI Software</h1>
+<p class="page-subtitle">Choose an AI-powered trading tool and configure it before testing or running.</p>
 
-<!-- CONNECT -->
+<div class="warning"><strong>AI TEST MODE:</strong> AI tools shown here are interface prototypes. They do not currently execute real trades or guarantee trading results.</div>
 
-<section id="connect" class="page">
+<div class="ai-grid">
 
-<h1 class="page-title">Deriv Account</h1>
-<p class="page-subtitle">
-Connect your Deriv account to TRADEPILOT.
-</p>
+<div class="card ai-card"><span class="ai-badge">AI</span><div class="tool-icon">🧠</div><h3>AI Trend Analyst</h3><p>Analyzes directional market conditions and produces a test signal.</p><button class="primary" onclick="openAI('AI Trend Analyst')">Select AI Bot</button></div>
 
-<div class="card connect-panel">
+<div class="card ai-card"><span class="ai-badge">AI</span><div class="tool-icon">🔮</div><h3>AI Market Scanner</h3><p>Scans selected markets and highlights conditions for further analysis.</p><button class="primary" onclick="openAI('AI Market Scanner')">Select AI Bot</button></div>
 
-<div class="warning">
-<strong>Important:</strong><br>
-TRADEPILOT will only be able to access the permissions you authorize.
-Never give your Deriv password to TRADEPILOT. Account authentication will use the official Deriv authorization/API process.
-</div>
-
-<h3 style="margin-bottom:12px;">
-Connect your Deriv account
-</h3>
-
-<p class="page-subtitle">
-The live Deriv API connection will be activated in the next development stage.
-</p>
-
-<button class="connect-btn" style="width:100%;" onclick="demoConnect()">
-Connect Deriv Account
-</button>
+<div class="card ai-card"><span class="ai-badge">AI</span><div class="tool-icon">⚡</div><h3>AI Signal Pilot</h3><p>Combines configurable indicators into a test signal workflow.</p><button class="primary" onclick="openAI('AI Signal Pilot')">Select AI Bot</button></div>
 
 </div>
-
 </section>
 
+<!-- AI BOT SCREEN -->
+<section id="aibot" class="page">
+<h1 class="page-title" id="aiTitle">AI Bot Screen</h1>
+<p class="page-subtitle">Configure your selected AI software.</p>
 
-<!-- SETTINGS -->
-
-<section id="settings" class="page">
-
-<h1 class="page-title">Settings</h1>
-<p class="page-subtitle">
-Manage your TRADEPILOT preferences.
-</p>
+<div class="section-grid">
+<div class="card">
+<h3 style="margin-bottom:18px">AI Configuration</h3>
+<div class="form-group"><label>Market</label><select id="aiMarket"><option>Volatility 10</option><option>Volatility 25</option><option>Volatility 50</option><option>Volatility 75</option><option>Volatility 100</option></select></div>
+<div class="form-group"><label>Analysis Sensitivity</label><select id="aiSensitivity"><option>Conservative</option><option selected>Balanced</option><option>Aggressive</option></select></div>
+<div class="form-group"><label>Stake for future execution</label><input id="aiStake" type="number" value="1" min="0.35"></div>
+<div class="action-row"><button class="primary" onclick="testAI()">Test AI</button><button class="success" onclick="runAI()">Run AI</button></div>
+</div>
 
 <div class="card">
+<h3>AI Result</h3>
+<div class="notice" id="aiResult" style="margin-top:15px">No analysis has been run yet.</div>
+<div style="margin-top:18px"><span class="small">TEST CONFIDENCE</span><div class="progress"><span id="aiProgress" style="width:0%"></span></div></div>
+</div>
+</div>
+</section>
 
-<div class="form-group">
-<label>Display Name</label>
-<input value="TRADEPILOT User">
+<!-- ANALYSIS -->
+<section id="analysis" class="page">
+<h1 class="page-title">Analysis Tool</h1>
+<p class="page-subtitle">Study a market before deciding whether to trade or use a bot.</p>
+
+<div class="analysis-grid">
+<div class="card chart-large">
+<div class="chart-info"><div><h3 id="analysisMarketTitle">Volatility 10 Analysis</h3><span class="small">Demo chart — live market feed will be added later</span></div><select style="width:170px" onchange="changeAnalysis(this.value)"><option>Volatility 10</option><option>Volatility 25</option><option>Volatility 50</option><option>Volatility 75</option><option>Volatility 100</option></select></div>
+<svg viewBox="0 0 700 330" preserveAspectRatio="none">
+<path class="chart-area" d="M0,260 L50,245 L100,260 L150,205 L200,225 L250,170 L300,190 L350,125 L400,150 L450,105 L500,130 L550,75 L600,100 L650,55 L700,80 L700,330 L0,330 Z"/>
+<path class="chart-line" d="M0,260 L50,245 L100,260 L150,205 L200,225 L250,170 L300,190 L350,125 L400,150 L450,105 L500,130 L550,75 L600,100 L650,55 L700,80"/>
+</svg>
 </div>
 
-<div class="form-group">
-<label>Default Market</label>
-<select>
-<option>Volatility 10</option>
-<option>Volatility 25</option>
-<option>Volatility 50</option>
-<option>Volatility 75</option>
-<option>Volatility 100</option>
-</select>
+<div>
+<div class="card" style="margin-bottom:16px">
+<h3 style="margin-bottom:10px">Indicators</h3>
+<div class="indicator"><span>Trend</span><strong class="green">Bullish</strong></div>
+<div class="indicator"><span>Momentum</span><strong class="green">Positive</strong></div>
+<div class="indicator"><span>Volatility</span><strong>Medium</strong></div>
+<div class="indicator"><span>Market Bias</span><strong class="green">BUY</strong></div>
 </div>
 
-<div class="form-group">
-<label>Risk Level</label>
-<select>
-<option>Conservative</option>
-<option>Moderate</option>
-<option>Aggressive</option>
-</select>
+<div class="signal">
+<strong>Test Signal</strong><br>
+<span class="small">This is an analytical demonstration, not a guaranteed prediction.</span>
+<div style="margin-top:10px"><strong class="green">Potential BUY</strong></div>
 </div>
-
-<button class="primary" onclick="saveSettings()">
-Save Settings
-</button>
-
 </div>
+</div>
+</section>
 
+<!-- TRADE HISTORY -->
+<section id="trades" class="page">
+<h1 class="page-title">Trade History</h1>
+<p class="page-subtitle">Your trades will appear here after test or live execution is enabled.</p>
+
+<div class="card table-wrap">
+<table>
+<thead><tr><th>Time</th><th>Market</th><th>Type</th><th>Stake</th><th>Result</th><th>Source</th></tr></thead>
+<tbody id="tradeHistory">
+<tr><td colspan="6" class="empty">No trades yet.</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ACCOUNT -->
+<section id="account" class="page">
+<h1 class="page-title">Account</h1>
+<p class="page-subtitle">Connect and manage your Deriv account.</p>
+
+<div class="card connect-panel">
+<div class="warning"><strong>Security:</strong> TRADEPILOT should never ask for or store your Deriv password. The final connection will use the official Deriv authorization/API process.</div>
+
+<h3>Deriv Connection</h3>
+<p class="page-subtitle" style="margin-top:8px">Current status: <strong id="connectionStatus" class="red">Not Connected</strong></p>
+
+<button class="connect-btn" style="width:100%" onclick="demoConnect()">Connect Deriv Account</button>
+
+<div class="notice" style="margin-top:17px">
+Real API authentication, account balance retrieval, market streaming and trade execution will be connected only after this interface is tested.
+</div>
+</div>
+</section>
+
+<!-- SETTINGS -->
+<section id="settings" class="page">
+<h1 class="page-title">Settings</h1>
+<p class="page-subtitle">Manage your TRADEPILOT preferences.</p>
+
+<div class="card">
+<div class="form-group"><label>Display Name</label><input value="TRADEPILOT User"></div>
+<div class="form-group"><label>Default Market</label><select><option>Volatility 10</option><option>Volatility 25</option><option>Volatility 50</option><option>Volatility 75</option><option>Volatility 100</option></select></div>
+<div class="form-group"><label>Risk Level</label><select><option>Conservative</option><option>Moderate</option><option>Aggressive</option></select></div>
+<button class="primary" onclick="toast('Settings saved')">Save Settings</button>
+</div>
 </section>
 
 </main>
 </div>
 </div>
 
+<div class="toast" id="toast"></div>
+
+<div class="modal" id="modal">
+<div class="modal-box">
+<button class="close" onclick="closeModal()">×</button>
+<h3 id="modalTitle">TRADEPILOT</h3>
+<div id="modalContent" style="margin-top:15px;line-height:1.6;color:#aab4ca"></div>
+</div>
+</div>
 
 <script>
+let bots=[];
+let trades=[];
+let selectedAI="";
 
-let bots = [];
+function showPage(id,button){
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+const page=document.getElementById(id);
+if(page)page.classList.add("active");
 
-function showPage(pageId,button){
+document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+if(button)button.classList.add("active");
 
-  document.querySelectorAll('.page').forEach(page=>{
-    page.classList.remove('active');
-  });
-
-  const page=document.getElementById(pageId);
-
-  if(page){
-    page.classList.add('active');
-  }
-
-  document.querySelectorAll('.nav-btn').forEach(btn=>{
-    btn.classList.remove('active');
-  });
-
-  if(button){
-    button.classList.add('active');
-  }
-
-  document.getElementById('sidebar').classList.remove('open');
-
-  window.scrollTo({
-    top:0,
-    behavior:'smooth'
-  });
+document.getElementById("sidebar").classList.remove("open");
+window.scrollTo({top:0,behavior:"smooth"});
 }
-
 
 function toggleMenu(){
-  document.getElementById('sidebar').classList.toggle('open');
+document.getElementById("sidebar").classList.toggle("open");
 }
 
-
-function selectStrategy(element){
-
-  document.querySelectorAll('.strategy').forEach(item=>{
-    item.classList.remove('selected');
-  });
-
-  element.classList.add('selected');
-
-  document.getElementById('previewStrategy').textContent =
-    element.querySelector('strong').textContent;
+function toast(message){
+const t=document.getElementById("toast");
+t.textContent=message;
+t.classList.add("show");
+setTimeout(()=>t.classList.remove("show"),2500);
 }
 
+function openModal(title,content){
+document.getElementById("modalTitle").textContent=title;
+document.getElementById("modalContent").innerHTML=content;
+document.getElementById("modal").classList.add("open");
+}
 
-document.getElementById('botMarket').addEventListener('change',function(){
-  document.getElementById('previewMarket').textContent=this.value;
+function closeModal(){
+document.getElementById("modal").classList.remove("open");
+}
+
+function selectStrategy(el){
+document.querySelectorAll(".strategy").forEach(x=>x.classList.remove("selected"));
+el.classList.add("selected");
+document.getElementById("previewStrategy").textContent=el.querySelector("strong").textContent;
+}
+
+document.getElementById("botMarket").addEventListener("change",function(){
+document.getElementById("previewMarket").textContent=this.value;
 });
 
-
-document.getElementById('stake').addEventListener('input',function(){
-  document.getElementById('previewStake').textContent='$'+
-    Number(this.value || 0).toFixed(2);
+document.getElementById("stake").addEventListener("input",function(){
+document.getElementById("previewStake").textContent="$"+Number(this.value||0).toFixed(2);
 });
 
-
-document.getElementById('stopLoss').addEventListener('input',function(){
-  document.getElementById('previewSL').textContent='$'+
-    Number(this.value || 0).toFixed(2);
+document.getElementById("stopLoss").addEventListener("input",function(){
+document.getElementById("previewSL").textContent="$"+Number(this.value||0).toFixed(2);
 });
 
-
-document.getElementById('takeProfit').addEventListener('input',function(){
-  document.getElementById('previewTP').textContent='$'+
-    Number(this.value || 0).toFixed(2);
+document.getElementById("takeProfit").addEventListener("input",function(){
+document.getElementById("previewTP").textContent="$"+Number(this.value||0).toFixed(2);
 });
-
 
 function createBot(){
-
-  const name=document.getElementById('botName').value.trim() ||
-    'My Trading Bot';
-
-  const market=document.getElementById('botMarket').value;
-
-  const strategy=document.getElementById('previewStrategy').textContent;
-
-  const stake=document.getElementById('stake').value;
-
-  const bot={
-    name:name,
-    market:market,
-    strategy:strategy,
-    stake:stake,
-    running:false
-  };
-
-  bots.push(bot);
-
-  updateBots();
-
-  alert('Bot created successfully.');
-
-  showPage('mybots');
+const bot={
+name:document.getElementById("botName").value.trim()||"My Trading Bot",
+market:document.getElementById("botMarket").value,
+strategy:document.getElementById("previewStrategy").textContent,
+stake:Number(document.getElementById("stake").value||1),
+running:false
+};
+bots.push(bot);
+updateBots();
+toast("Bot created successfully");
+showPage("mybots");
 }
 
-
-function installBot(name){
-
-  bots.push({
-    name:name,
-    market:'Volatility 10',
-    strategy:name,
-    stake:'1',
-    running:false
-  });
-
-  updateBots();
-
-  alert(name+' has been added to My Bots.');
-
-  showPage('mybots');
+function selectFreeBot(name,strategy){
+document.getElementById("botName").value=name;
+document.getElementById("previewStrategy").textContent=strategy;
+showPage("builder");
+toast(name+" selected — configure your bot");
 }
 
+function testCurrentBot(){
+openModal("Bot Test",
+"<strong>TEST MODE</strong><br><br>Your bot configuration is valid for the interface test. No real Deriv trade has been placed.");
+}
 
 function updateBots(){
+const container=document.getElementById("myBotList");
+document.getElementById("activeBots").textContent=bots.filter(b=>b.running).length;
 
-  const container=document.getElementById('myBotList');
-
-  document.getElementById('activeBots').textContent =
-    bots.filter(bot=>bot.running).length;
-
-  if(bots.length===0){
-    return;
-  }
-
-  container.innerHTML='';
-
-  bots.forEach((bot,index)=>{
-
-    const card=document.createElement('div');
-
-    card.className='card';
-
-    card.style.marginBottom='14px';
-
-    card.innerHTML=`
-
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
-
-        <div>
-
-          <h3>${bot.name}</h3>
-
-          <div class="small" style="margin-top:7px;">
-            ${bot.market} • ${bot.strategy} • Stake $${bot.stake}
-          </div>
-
-        </div>
-
-        <span class="status ${bot.running?'win':''}">
-          ${bot.running?'RUNNING':'STOPPED'}
-        </span>
-
-      </div>
-
-      <div style="display:flex;gap:9px;margin-top:18px;">
-
-        <button class="primary"
-          onclick="toggleBot(${index})">
-          ${bot.running?'Stop Bot':'Start Bot'}
-        </button>
-
-        <button class="danger"
-          onclick="deleteBot(${index})">
-          Delete
-        </button>
-
-      </div>
-
-    `;
-
-    container.appendChild(card);
-
-  });
-
+if(!bots.length){
+container.innerHTML='<div class="card empty"><div style="font-size:34px">🤖</div><h3 style="margin:10px 0">No bots yet</h3><p>Create a bot or select a free bot.</p><br><button class="primary" onclick="showPage(\'builder\')">Open Bot Builder</button></div>';
+return;
 }
 
-
-function toggleBot(index){
-
-  bots[index].running=!bots[index].running;
-
-  updateBots();
-
+container.innerHTML="";
+bots.forEach((bot,i)=>{
+const card=document.createElement("div");
+card.className="card";
+card.style.marginBottom="14px";
+card.innerHTML=`
+<div style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+<div>
+<h3>${escapeHTML(bot.name)}</h3>
+<div class="small" style="margin-top:6px">${escapeHTML(bot.market)} • ${escapeHTML(bot.strategy)} • Stake $${bot.stake.toFixed(2)}</div>
+</div>
+<span class="status ${bot.running?"win":"loss"}">${bot.running?"RUNNING":"STOPPED"}</span>
+</div>
+<div class="action-row" style="margin-top:17px">
+<button class="primary" onclick="toggleBot(${i})">${bot.running?"Stop Bot":"Test / Run"}</button>
+<button class="secondary" onclick="editBot(${i})">Configure</button>
+<button class="danger" onclick="deleteBot(${i})">Delete</button>
+</div>`;
+container.appendChild(card);
+});
 }
 
-
-function deleteBot(index){
-
-  bots.splice(index,1);
-
-  updateBots();
-
+function toggleBot(i){
+bots[i].running=!bots[i].running;
+updateBots();
+toast(bots[i].running?"Bot started in test mode":"Bot stopped");
 }
 
+function editBot(i){
+const b=bots[i];
+document.getElementById("botName").value=b.name;
+document.getElementById("botMarket").value=b.market;
+document.getElementById("stake").value=b.stake;
+document.getElementById("previewMarket").textContent=b.market;
+document.getElementById("previewStrategy").textContent=b.strategy;
+document.getElementById("previewStake").textContent="$"+b.stake.toFixed(2);
+showPage("builder");
+}
+
+function deleteBot(i){
+bots.splice(i,1);
+updateBots();
+toast("Bot deleted");
+}
+
+function openManual(market){
+document.getElementById("manualMarket").value=market;
+showPage("manual");
+}
+
+function simulateTrade(type){
+const market=document.getElementById("manualMarket").value;
+const stake=Number(document.getElementById("manualStake").value||0);
+if(stake<=0){
+toast("Enter a valid stake");
+return;
+}
+trades.unshift({
+time:new Date().toLocaleTimeString(),
+market,
+type,
+stake,
+result:"TEST",
+source:"Manual"
+});
+updateTrades();
+toast(type+" test trade recorded — no real trade placed");
+}
+
+function updateTrades(){
+const body=document.getElementById("tradeHistory");
+if(!trades.length){
+body.innerHTML='<tr><td colspan="6" class="empty">No trades yet.</td></tr>';
+return;
+}
+body.innerHTML=trades.map(t=>`
+<tr>
+<td>${escapeHTML(t.time)}</td>
+<td>${escapeHTML(t.market)}</td>
+<td>${escapeHTML(t.type)}</td>
+<td>$${Number(t.stake).toFixed(2)}</td>
+<td class="gold">${escapeHTML(t.result)}</td>
+<td>${escapeHTML(t.source)}</td>
+</tr>`).join("");
+}
+
+function openAI(name){
+selectedAI=name;
+document.getElementById("aiTitle").textContent=name;
+document.getElementById("aiResult").textContent="No analysis has been run yet.";
+document.getElementById("aiProgress").style.width="0%";
+showPage("aibot");
+toast(name+" selected");
+}
+
+function testAI(){
+if(!selectedAI){
+toast("Select an AI bot first");
+return;
+}
+const market=document.getElementById("aiMarket").value;
+document.getElementById("aiResult").innerHTML=
+"<strong>Test Analysis</strong><br><br>Market: "+escapeHTML(market)+
+"<br>Bias: <span class='green'>Potential BUY</span><br>Confidence: 72%<br><br>"+
+"<span class='small'>Demonstration only. This is not a guaranteed prediction.</span>";
+document.getElementById("aiProgress").style.width="72%";
+}
+
+function runAI(){
+openModal("AI Run",
+"<strong>TEST MODE</strong><br><br>"+escapeHTML(selectedAI||"AI Software")+
+" is ready to run its simulated workflow. Real trade execution is disabled until the official Deriv integration is completed.");
+}
+
+function changeAnalysis(value){
+document.getElementById("analysisMarketTitle").textContent=value+" Analysis";
+}
 
 function demoConnect(){
-
-  alert(
-    'Deriv API connection is not activated yet. '+
-    'This button is ready for the official Deriv authentication integration.'
-  );
-
+openModal("Deriv Connection",
+"<strong>Not connected</strong><br><br>The official Deriv authentication/API integration is the next live-development stage. No password should be entered into this website.");
 }
 
-
-function saveSettings(){
-
-  alert('Settings saved.');
-
+function escapeHTML(value){
+return String(value).replace(/[&<>"']/g,function(c){
+return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c];
+});
 }
-
 </script>
-
 </body>
-    </html>
+  </html>
